@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.undypbz.mongodb.net/?retryWrites=true&w=majority`;
 
 // Middleware
@@ -28,6 +28,14 @@ async function run() {
       const curser = services.find(query);
       const result = await curser.toArray();
       res.send(result);
+    });
+
+    // single service API
+    app.get("/services/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }; // filter services with `new ObjectId(id)`
+      const curser = await services.findOne(query); // wait for find the docs
+      res.send(curser);
     });
   } finally {
     // Ensures that the client will close when you finish/error
