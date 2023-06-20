@@ -72,10 +72,19 @@ async function run() {
       res.send(result);
     });
 
-    // app.patch("/review/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   console.log(id);
-    // });
+    app.patch("/review/:id", async (req, res) => {
+      const id = req.params.id;
+      // create a document which need to update
+      const newDoc = {
+        $set: {
+          ...req.body,
+        },
+      };
+      // create filter for review update
+      const filter = { _id: new ObjectId(id) };
+      const result = await reviews.updateOne(filter, newDoc);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
