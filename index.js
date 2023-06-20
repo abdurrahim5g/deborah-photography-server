@@ -45,6 +45,16 @@ async function run() {
       const result = await reviews.insertOne(review);
       res.send(result);
     });
+
+    // get single service review
+    app.get("/review", async (req, res) => {
+      const query = req.query;
+      const opitons = {
+        sort: { timePosted: -1 },
+      };
+      const result = await reviews.find(query, opitons).toArray();
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
