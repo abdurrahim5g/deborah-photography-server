@@ -63,6 +63,19 @@ async function run() {
       const result = await reviews.deleteOne(query);
       res.send(result);
     });
+
+    // add review
+    app.get("/review/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await reviews.findOne(query);
+      res.send(result);
+    });
+
+    // app.patch("/review/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   console.log(id);
+    // });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
