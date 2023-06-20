@@ -22,6 +22,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const services = client.db("photography").collection("services");
+    const reviews = client.db("photography").collection("reviews");
 
     app.get("/services", async (req, res) => {
       const query = {};
@@ -35,7 +36,14 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }; // filter services with `new ObjectId(id)`
       const curser = await services.findOne(query); // wait for find the docs
-      res.send(curser);
+      res.send(curser || []);
+    });
+
+    // Review Post API
+    app.post("/review", async (req, res) => {
+      const review = req.body;
+      const result = await reviews.insertOne(review);
+      res.send(result);
     });
   } finally {
     // Ensures that the client will close when you finish/error
