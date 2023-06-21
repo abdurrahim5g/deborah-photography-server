@@ -43,7 +43,7 @@ async function run() {
     app.post("/services", async (req, res) => {
       const service = req.body;
       const result = await services.insertOne(service);
-      console.log(result);
+      res.send(result);
     });
 
     // Review Post API
