@@ -26,8 +26,10 @@ async function run() {
 
     app.get("/services", async (req, res) => {
       const query = {};
+      const limit = parseInt(req.query.limit) || 0;
+      // console.log(limit);
       const curser = services.find(query);
-      const result = await curser.toArray();
+      const result = await curser.limit(limit).toArray();
       res.send(result);
     });
 
