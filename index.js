@@ -103,6 +103,14 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // get single blog
+    app.get("/blogs/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await blogs.findOne(filter);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
