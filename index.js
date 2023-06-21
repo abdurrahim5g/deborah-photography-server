@@ -23,6 +23,7 @@ async function run() {
   try {
     const services = client.db("photography").collection("services");
     const reviews = client.db("photography").collection("reviews");
+    const blogs = client.db("photography").collection("blogs");
 
     app.get("/services", async (req, res) => {
       const query = {};
@@ -92,6 +93,14 @@ async function run() {
       // create filter for review update
       const filter = { _id: new ObjectId(id) };
       const result = await reviews.updateOne(filter, newDoc);
+      res.send(result);
+    });
+
+    // get blogs
+    app.get("/blogs", async (req, res) => {
+      const query = {};
+      const cursor = blogs.find(query);
+      const result = await cursor.toArray();
       res.send(result);
     });
   } finally {
