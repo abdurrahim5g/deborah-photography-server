@@ -39,6 +39,13 @@ async function run() {
       res.send(curser || []);
     });
 
+    // post single service
+    app.post("/services", async (req, res) => {
+      const service = req.body;
+      const result = await services.insertOne(service);
+      console.log(result);
+    });
+
     // Review Post API
     app.post("/review", async (req, res) => {
       const review = req.body;
